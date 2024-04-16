@@ -1,0 +1,781 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+/* Define color scheme */
+:root {
+    /** Day theme colors **/
+    /* Sky */
+    --sun--color: #FCCD35;
+    --morningsky-color: #C5E4DF;
+    /* Ground */
+    --grass-color: #A5C74F;
+    --mud-color: #99502F;
+    /* Trees */
+    --trunk-color: #663119;
+    --trunkshadow-color: #532814;
+    --treeshadow-color: #88a93a;
+    /* Mount */
+    --mountain2-color: #98BD42;
+    --mountain1-color: #88a93a;
+    /* lake */
+    --lake-color: #4ad0e2;
+    --lake-water-color: #61b8d8;
+    /* Cloud */
+    --cloud-color: #ffffff;
+
+    /** Night theme colors **/
+    /* Sky */
+    --moon-color: #fffb00e9;
+    --nightsky-color: #1b1b3b;
+    /* Ground */
+    --grass-color-night: #445221;
+    --mud-color-night: #2c1c15;
+    /* Trees */
+    --tree-color-night: #355E3B;
+    --trunk-color-night: #401f0f;
+    --trunkshadow-color-night: #211008;
+    --treeshadow-color-night: #1c2409;
+    /* Mount */
+    --mountain2-color-night: #264653;
+    --mountain1-color-night: #2F4F4F;
+    /* lake */
+    --lake-color-night: #2a3f42;
+    --lake-water-night: #2e6c84;
+}
+
+
+
+/**** Stage Setup ****/
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Josefin Sans", sans-serif;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+/* Use button to switch Day and Night */
+#toggleButton {
+    width: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: pointer;
+    padding: 12px;
+    background-color: #e8e8e8;
+    border: none;
+    border-radius: 20px;
+    transition: 0.3s;
+    z-index: 999;
+}
+
+#toggleButton:hover {
+    background-color: #1f3456;
+    color: #ffffff;
+}
+
+/* checked = Day */
+#toggleTheme:checked+#toggleButton::after {
+    content: ": Day";
+}
+
+/* not checked = Night */
+#toggleTheme:not(:checked)+#toggleButton::after {
+    content: ": Night";
+}
+
+/* Colour of the Sky */
+.skyContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--morningsky-color);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+/* Change to night theme when checkbox is checked */
+#toggleTheme:checked~.skyContainer {
+    background-color: var(--nightsky-color);
+}
+
+
+
+/**** Sun & Animation ****/
+
+.sun {
+    position: absolute;
+    bottom: -10%;
+    left: 70%;
+    transform: translate(-50%, 50%) scale(0.5);
+    width: 100px;
+    height: 100px;
+    background-color: var(--sun--color);
+    border-radius: 50%;
+    transition: all 0.5s ease-in-out;
+    z-index: 0;
+}
+
+/* Switching Sun down and rise */
+#toggleTheme:not(:checked)~.sun {
+    animation: curvedSunrise 4s ease-in-out forwards;
+}
+
+#toggleTheme:checked~.sun {
+    animation: curvedSundown 4s ease-in-out forwards;
+}
+
+
+/* Animation of Sun down and rise */
+@keyframes curvedSunrise {
+    0% {
+        bottom: 35%;
+        transform: translateX(200%);
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 80%;
+        transform: translateX(-300%);
+        opacity: 1;
+    }
+}
+
+@keyframes curvedSundown {
+    0% {
+        bottom: 80%;
+        transform: translateX(-300%);
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 5%;
+        transform: translateX(-760%);
+        opacity: 1;
+    }
+}
+
+
+/**** Moon & Animation ****/
+
+.moon {
+    position: absolute;
+    bottom: -10%;
+    left: 70%;
+    transform: translate(-50%, 50%) scale(0.5);
+    width: 100px;
+    height: 100px;
+    background-color: var(--moon-color);
+    border-radius: 50%;
+    transition: all 1s ease-in-out;
+    z-index: 0;
+}
+
+/* Switching Moon down and rise */
+#toggleTheme:not(:checked)~.moon {
+    animation: curvedMoondown 4s ease-in-out forwards;
+}
+
+#toggleTheme:checked~.moon {
+    animation: curvedMoonrise 4s ease-in-out forwards;
+}
+
+/* Animation of Moon down and rise */
+@keyframes curvedMoonrise {
+    0% {
+        bottom: 25%;
+        transform: translateX(200%);
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 80%;
+        transform: translateX(-300%);
+        opacity: 1;
+    }
+}
+
+@keyframes curvedMoondown {
+    0% {
+        bottom: 80%;
+        transform: translateX(-300%);
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 25%;
+        transform: translateX(-760%);
+        opacity: 1;
+    }
+}
+
+
+
+/**** Stars & Animation ****/
+
+.star-five-point {
+    position: absolute;
+    background-color: yellow;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transition: transform 0.3s ease-in;
+    animation: twinkle 2s infinite;
+}
+
+.star-five-point:hover {
+    background-color: gold;
+    animation: rotate infinite 3s ease-in-out;
+}
+
+.star-four-point {
+    position: absolute;
+    background-color: yellow;
+    clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: twinkle 2s infinite;
+    z-index: 30;
+}
+
+.star-four-point:hover {
+    background-color: gold;
+    animation: rotate infinite 3s ease-in-out;
+}
+
+.star-five-point-i {
+    top: 10%;
+    left: 14%;
+    width: 30px;
+    height: 30px;
+    rotate: 20deg;
+}
+
+.star-five-point-ii {
+    top: 24%;
+    left: 8%;
+    width: 24px;
+    height: 24px;
+    rotate: 45deg;
+}
+
+.star-five-point-iii {
+    top: 10%;
+    left: 88%;
+    width: 25px;
+    height: 25px;
+    rotate: 40deg;
+}
+
+.star-five-point-iv {
+    top: 18%;
+    left: 68%;
+    width: 25px;
+    height: 25px;
+    rotate: 33deg;
+}
+
+.star-five-point-v {
+    top: 26%;
+    left: 48%;
+    width: 25px;
+    height: 25px;
+    rotate: 40deg;
+}
+
+
+.star-four-point-i {
+    top: 19%;
+    left: 26%;
+    width: 30px;
+    height: 30px;
+    rotate: 10deg;
+}
+
+.star-four-point-ii {
+    top: 27%;
+    left: 88%;
+    width: 23px;
+    height: 23px;
+    rotate: -10deg;
+}
+
+.star-four-point-iii {
+    top: 8%;
+    left: 76%;
+    width: 30px;
+    height: 30px;
+    rotate: 10deg;
+}
+
+.star-four-point-iv {
+    top: 15%;
+    left: 40%;
+    width: 20px;
+    height: 20px;
+    rotate: 10deg;
+}
+
+.star-four-point-v {
+    top: 7%;
+    left: 60%;
+    width: 22px;
+    height: 22px;
+    rotate: 19deg;
+}
+
+/* Show and Hide of those Stars */
+/* Night */
+#toggleTheme:not(:checked)~.star-five-point,
+#toggleTheme:not(:checked)~.star-four-point {
+    opacity: 0;
+    animation: hide 3s ease;
+}
+
+/* Day */
+#toggleTheme:checked~.star-five-point,
+#toggleTheme:checked~.star-four-point {
+    opacity: 1;
+}
+
+
+@keyframes rotate {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1.0);
+
+    }
+
+    50% {
+        transform: rotate(360deg) scale(2.0);
+    }
+}
+
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        transform: scale(1);
+
+    }
+
+    50% {
+        transform: scale(1.4);
+
+    }
+}
+
+
+@keyframes hide {
+
+    0% {
+
+        opacity: 1;
+    }
+
+    100% {
+
+        opacity: 0;
+    }
+}
+
+
+
+/**** Cloud & Animation ****/
+
+.white-cloud-1 {
+    position: absolute;
+    left: 30%;
+    top: 26%;
+    z-index: 1;
+    animation: moveCloud-left 60s linear infinite;
+    opacity: 0.8;
+}
+
+.white-cloud-2 {
+    position: absolute;
+    left: 50%;
+    top: 19%;
+    z-index: 11;
+    animation: moveCloud-right 60s linear infinite;
+    opacity: 0.6;
+}
+
+.white-cloud-3 {
+    position: absolute;
+    left: 30%;
+    top: 6%;
+    z-index: 11;
+    scale: 0.6;
+    animation: moveCloud-left 80s linear infinite;
+    opacity: 0.4;
+}
+
+.white-cloud-4 {
+    position: absolute;
+    left: 30%;
+    top: 10%;
+    z-index: 11;
+    scale: 0.8;
+    animation: moveCloud-right 80s linear infinite;
+    opacity: 0.7;
+}
+
+.cloud-1 {
+    position: absolute;
+    top: 0%;
+    width: 60px;
+    height: 60px;
+    background: var(--cloud-color);
+    clip-path: ellipse(50% 50% at 50% 100%);
+    left: 0%;
+}
+
+.cloud-2 {
+    position: absolute;
+    top: 0%;
+    width: 100px;
+    height: 60px;
+    background: var(--cloud-color);
+    clip-path: ellipse(50% 90% at 50% 100%);
+    left: 50px;
+}
+
+/* Hide clouds at night */
+#toggleTheme:checked~.white-cloud-1,
+#toggleTheme:checked~.white-cloud-2,
+#toggleTheme:checked~.white-cloud-3,
+#toggleTheme:checked~.white-cloud-4 {
+    opacity: 0;
+    animation: none;
+}
+
+
+@keyframes moveCloud-left {
+    from {
+        left: -10%;
+    }
+
+    to {
+        left: 110%;
+    }
+}
+
+@keyframes moveCloud-right {
+    from {
+        left: 110%;
+    }
+
+    to {
+        left: -10%;
+    }
+}
+
+
+/**** Mounts & Animation ****/
+
+.mountain {
+    position: absolute;
+    bottom: 34%;
+    width: 60%;
+    height: 40%;
+    clip-path: ellipse(50% 90% at 50% 100%);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+.mount-1 {
+    background: var(--mountain1-color);
+    left: 0%;
+}
+
+.mount-2 {
+    background: var(--mountain2-color);
+    right: 0%;
+}
+
+#toggleTheme:checked~.mountain.mount-1 {
+    background-color: var(--mountain1-color-night);
+    transition: 0.3 ease;
+}
+
+#toggleTheme:checked~.mountain.mount-2 {
+    background-color: var(--mountain2-color-night);
+    transition: 0.3 ease;
+}
+
+
+/**** Trees & Animation ****/
+
+.tree-1 {
+    position: absolute;
+    height: 500px;
+    width: 300px;
+    left: 6%;
+    bottom: 20%;
+    transform: scale(0.65);
+    z-index: 2;
+}
+
+.tree-2 {
+    position: absolute;
+    height: 500px;
+    width: 300px;
+    left: 18%;
+    bottom: 24%;
+    transform: scale(0.9);
+    z-index: 3;
+}
+
+.tree-3 {
+    position: absolute;
+    height: 500px;
+    width: 300px;
+    right: 6%;
+    bottom: 24%;
+    transform: scale(0.7);
+    z-index: 2;
+}
+
+.tree-4 {
+    position: absolute;
+    display: block;
+    flex-direction: row;
+    height: 500px;
+    width: 300px;
+    right: 18%;
+    bottom: 20%;
+    transform: scale(0.85);
+    z-index: 3;
+}
+
+.tree {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+}
+
+.triangle {
+    position: absolute;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: transparent transparent #2cb02c transparent;
+    animation: sway 4s infinite ease-in-out;
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+.layer1 {
+    border-width: 130px 55px;
+    transform: translateX(-50%);
+    border-color: transparent transparent #6aa239 transparent;
+    z-index: 6;
+    transition: border-color 3s ease-in-out;
+}
+
+.layer2 {
+    border-width: 170px 80px;
+    transform: translateX(-50%);
+    border-color: transparent transparent #689F38 transparent;
+    z-index: 5;
+    transition: border-color 3s ease-in-out;
+}
+
+.layer3 {
+    border-width: 210px 100px;
+    transform: translateX(-50%);
+    border-color: transparent transparent #5c9533 transparent;
+    z-index: 4;
+    transition: border-color 3s ease-in-out;
+}
+
+.layer4 {
+    /* border-color: var(--mountain2-color); */
+    border-width: 250px 120px;
+    transform: translateX(-50%);
+    border-color: transparent transparent #558B2F transparent;
+    z-index: 3;
+    transition: border-color 3s ease-in-out;
+}
+
+.shadow {
+    box-shadow: 0 6px 6px -6px rgba(39, 39, 39, 0.461);
+}
+
+.trunk {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 200px;
+    border-radius: 8px;
+    background: var(--trunk-color);
+    border-left: 14px solid var(--trunkshadow-color);
+    transition: background-color 3s ease-in-out, border-color 3s ease-in-out;
+    z-index: -1;
+}
+
+.tree-shadow {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    width: 50%;
+    height: 8%;
+    transform: translateX(-50%) translateY(100%);
+    background: var(--treeshadow-color);
+    opacity: 0.7;
+    clip-path: ellipse(50% 50% at 50% 50%);
+    z-index: -4;
+    filter: blur(20px);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+
+#toggleTheme:checked~.tree-1 .triangle,
+#toggleTheme:checked~.tree-2 .triangle,
+#toggleTheme:checked~.tree-3 .triangle,
+#toggleTheme:checked~.tree-4 .triangle {
+    border-color: transparent transparent var(--tree-color-night) transparent;
+}
+
+#toggleTheme:checked~.tree-1 .trunk,
+#toggleTheme:checked~.tree-2 .trunk,
+#toggleTheme:checked~.tree-3 .trunk,
+#toggleTheme:checked~.tree-4 .trunk {
+    background: var(--trunk-color-night);
+    border-left: 14px solid var(--trunkshadow-color-night);
+}
+
+#toggleTheme:checked~.tree-1 .tree-shadow,
+#toggleTheme:checked~.tree-2 .tree-shadow,
+#toggleTheme:checked~.tree-3 .tree-shadow,
+#toggleTheme:checked~.tree-4 .tree-shadow {
+    background: var(--treeshadow-color-night);
+}
+
+/* Trees sway left and right */
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(2deg);
+    }
+}
+
+
+/**** Grass and Mud ****/
+.grass {
+    position: absolute;
+    bottom: 16%;
+    width: 100%;
+    height: 20%;
+    background: var(--grass-color);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+.mud {
+    position: absolute;
+    bottom: 16%;
+    width: 100%;
+    height: 4%;
+    background: var(--mud-color);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+#toggleTheme:checked~.grass {
+    background: var(--grass-color-night);
+}
+
+#toggleTheme:checked~.mud {
+    background: 40px var(--mud-color-night);
+}
+
+
+/**** Lake ****/
+.lake {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    height: 16%;
+    background: var(--lake-color);
+    transition: background-color 3s ease-in-out, color 3s ease;
+}
+
+#toggleTheme:checked~.lake {
+    background-color: var(--lake-color-night);
+}
+
+
+.lake-water {
+    position: absolute;
+    border-radius: 20px;
+    background: var(--lake-water-color);
+
+    transition: background-color 3s ease-in-out;
+}
+
+.lake-water-1 {
+    bottom: 20%;
+    left: 10%;
+    width: 8%;
+    height: 6%;
+    animation: moveWater-left 40s linear infinite;
+}
+
+.lake-water-2 {
+    bottom: 80%;
+    left: 20%;
+    width: 10%;
+    height: 6%;
+    animation: moveWater-left 60s linear infinite;
+}
+
+.lake-water-3 {
+    bottom: 40%;
+    right: 0%;
+    width: 10%;
+    height: 6%;
+    animation: moveWater-right 60s linear infinite;
+}
+
+.lake-water-4 {
+    bottom: 60%;
+    right: 24%;
+    width: 10%;
+    height: 6%;
+    animation: moveWater-right 30s linear infinite;
+}
+
+
+#toggleTheme:checked~.lake .lake-water {
+    background-color: var(--lake-water-night);
+}
+
+
+@keyframes moveWater-left {
+    from {
+        left: -10%;
+    }
+
+    to {
+        left: 110%;
+    }
+}
+
+@keyframes moveWater-right {
+    from {
+        left: 110%;
+    }
+
+    to {
+        left: -10%;
+    }
+}
